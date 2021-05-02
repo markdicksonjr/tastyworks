@@ -8,6 +8,7 @@ import (
 
 type GetAccountsResult struct {
 	Data GetAccountsResultData
+	Error ErrorResult
 }
 
 type GetAccountsResultData struct {

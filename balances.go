@@ -8,6 +8,7 @@ import (
 
 type GetAccountBalanceResult struct {
 	Data       GetAccountBalanceResultData
+	Error      ErrorResult
 	ApiVersion string `json:"api_version"`
 	Context    string `json:"context"`
 }

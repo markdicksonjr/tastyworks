@@ -8,6 +8,7 @@ import (
 
 type GetTransactionsResult struct {
 	Data GetTransactionsResultData
+	Error ErrorResult
 }
 
 type GetTransactionsResultData struct {

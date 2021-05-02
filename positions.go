@@ -8,6 +8,7 @@ import (
 
 type GetPositionsResult struct {
 	Data GetPositionsResultData
+	Error ErrorResult
 }
 
 type GetPositionsResultData struct {

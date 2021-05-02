@@ -9,6 +9,7 @@ import (
 
 type GetMarketMetricsResult struct {
 	Data GetMarketMetricsResultData
+	Error ErrorResult
 }
 type GetMarketMetricsResultData struct {
 	Items []GetMarketMetricsSymbolResult

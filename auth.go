@@ -2,6 +2,7 @@ package tastyworks
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -53,6 +54,10 @@ func Authorize(username string, password string) (AuthorizationResult, error) {
 	v := AuthorizationResult{}
 	if err := json.Unmarshal(body, &v); err != nil {
 		return AuthorizationResult{}, err
+	}
+
+	if v.Error.Code != "" {
+		return v, errors.New(v.Error.Message)
 	}
 
 	return v, nil
