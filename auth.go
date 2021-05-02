@@ -1,10 +1,8 @@
 package tastyworks
 
 import (
-	"compress/gzip"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -45,16 +43,9 @@ func Authorize(username string, password string) (AuthorizationResult, error) {
 
 	defer resp.Body.Close()
 
-	var reader io.ReadCloser
-	switch resp.Header.Get("Content-Encoding") {
-	case "gzip":
-		reader, err = gzip.NewReader(resp.Body)
-		if err != nil {
-			return AuthorizationResult{}, err
-		}
-		defer reader.Close()
-	default:
-		reader = resp.Body
+	reader, err := getReadCloserFromResponse(resp)
+	if err != nil {
+		return AuthorizationResult{}, err
 	}
 
 	body, err := ioutil.ReadAll(reader)

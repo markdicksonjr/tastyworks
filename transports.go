@@ -1,6 +1,10 @@
 package tastyworks
 
-import "net/http"
+import (
+	"compress/gzip"
+	"io"
+	"net/http"
+)
 
 type ErrorResult struct {
 	Code    string
@@ -18,4 +22,18 @@ func SetStandardHeadersOnRequest(req *http.Request) {
 	req.Header.Set("Host", "api.tastyworks.com")
 	req.Header.Set("Origin", "https://trade.tastyworks.com")
 	req.Header.Set("Referer", "https://trade.tastyworks.com/tw")
+}
+
+func getReadCloserFromResponse(resp *http.Response) (reader io.ReadCloser, err error) {
+	switch resp.Header.Get("Content-Encoding") {
+	case "gzip":
+		reader, err = gzip.NewReader(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+		defer reader.Close()
+	default:
+		reader = resp.Body
+	}
+	return reader, nil
 }

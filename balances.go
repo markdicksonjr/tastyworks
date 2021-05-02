@@ -1,9 +1,7 @@
 package tastyworks
 
 import (
-	"compress/gzip"
 	"encoding/json"
-	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -76,16 +74,9 @@ func GetAccountBalance(sessionToken, accountId string) (GetAccountBalanceResult,
 
 	defer resp.Body.Close()
 
-	var reader io.ReadCloser
-	switch resp.Header.Get("Content-Encoding") {
-	case "gzip":
-		reader, err = gzip.NewReader(resp.Body)
-		if err != nil {
-			return GetAccountBalanceResult{}, err
-		}
-		defer reader.Close()
-	default:
-		reader = resp.Body
+	reader, err := getReadCloserFromResponse(resp)
+	if err != nil {
+		return GetAccountBalanceResult{}, err
 	}
 
 	body, err := ioutil.ReadAll(reader)
