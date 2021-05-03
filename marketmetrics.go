@@ -8,7 +8,7 @@ import (
 )
 
 type GetMarketMetricsResult struct {
-	Data GetMarketMetricsResultData
+	Data  GetMarketMetricsResultData
 	Error ErrorResult
 }
 type GetMarketMetricsResultData struct {
@@ -34,17 +34,30 @@ type GetMarketMetricsSymbolResult struct {
 	OptionExpirationImpliedVolatilities    []interface{} `json:"option-expiration-implied-volatilities"` // TODO
 	LiquidityRunningState                  LiquidityRunningState
 	Beta                                   string
-	CorrSpy3Month                          string `json:"corr-spy-3month"`
-	DividendRatePerShare                   string `json:"dividend-rate-per-share"`
-	AnnualDividendPerShare                 string `json:"annual-dividend-per-share"`
-	DividendYield                          string `json:"dividend-yield"`
-	DividendExDate                         string `json:"dividend-ex-date"`
-	DividendNextDate                       string `json:"dividend-next-date"`
-	DividendPayDate                        string `json:"dividend-pay-date"`   // e.g. "2021-04-30",
-	DividendUpdatedAt                      string `json:"dividend-updated-at"` // e.g. "2021-03-20T03:15:03.876Z"
-	ListedMarket                           string `json:"listed-market"`
-	Lendability                            string `json:"lendability"` // e.g. "Easy To Borrow"
-	BorrowRate                             string `json:"borrow-rate"` // e.g. "1.25"
+	CorrSpy3Month                          string                   `json:"corr-spy-3month"`
+	DividendRatePerShare                   string                   `json:"dividend-rate-per-share"`
+	AnnualDividendPerShare                 string                   `json:"annual-dividend-per-share"`
+	DividendYield                          string                   `json:"dividend-yield"`
+	DividendExDate                         string                   `json:"dividend-ex-date"`
+	DividendNextDate                       string                   `json:"dividend-next-date"`
+	DividendPayDate                        string                   `json:"dividend-pay-date"`   // e.g. "2021-04-30",
+	DividendUpdatedAt                      string                   `json:"dividend-updated-at"` // e.g. "2021-03-20T03:15:03.876Z"
+	Earnings                               GetMarketMetricsEarnings `json:"earnings"`
+	ListedMarket                           string                   `json:"listed-market"`
+	Lendability                            string                   `json:"lendability"` // e.g. "Easy To Borrow"
+	BorrowRate                             string                   `json:"borrow-rate"` // e.g. "1.25"
+}
+
+type GetMarketMetricsEarnings struct {
+	Visible            bool
+	ExpectedReportDate string `json:"expected-report-date"` // e.g. "2021-04-29"
+	Estimated          bool
+	TimeOfDay          string `json:"time-of-day"` // e.g. "AMC"
+	LateFlag           bool   `json:"late-flag"`
+	QuarterEndDate     string `json:"quarter-end-date"`
+	ActualEps          string `json:"actual-eps"`
+	ConsensusEstimate  string `json:"consensus-estimate"`
+	UpdatedAt          string `json:"updated-at"` // e.g. "2021-04-29T11:00:06.668Z"
 }
 
 type LiquidityRunningState struct {
