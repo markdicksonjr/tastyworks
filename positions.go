@@ -2,6 +2,7 @@ package tastyworks
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 )
@@ -74,6 +75,10 @@ func GetPositions(sessionToken, accountId string) (GetPositionsResult, error) {
 	v := GetPositionsResult{}
 	if err := json.Unmarshal(body, &v); err != nil {
 		return GetPositionsResult{}, err
+	}
+
+	if v.Error.Code != "" {
+		return v, errors.New(v.Error.Message)
 	}
 
 	return v, nil
